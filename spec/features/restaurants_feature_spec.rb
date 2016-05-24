@@ -13,7 +13,6 @@ feature 'restaurants' do
     before do
       Restaurant.create(name: "KFC")
     end
-
     scenario "display restaurants" do
       visit "/restaurants"
       expect(page).to have_content "KFC"
@@ -22,31 +21,47 @@ feature 'restaurants' do
   end
 
   context 'creating restaurants' do
-    scenario 'prompts user to fill out a form, then displays the new restaurant' do
-      visit '/restaurants'
-      click_link 'Add a restaurant'
-      fill_in 'Name', with: 'KFC'
-      fill_in 'Description', with: 'Deep fried goodness'
-      click_button 'Create Restaurant'
-      expect(page).to have_content 'KFC'
-      expect(current_path).to eq '/restaurants'
-    end
-
-    context 'an invalid restaurant' do
-      it 'does not let you submit a name that is too short' do
+    context 'as a signed in user' do
+      before do
+        visit '/'
+        click_link('Sign up')
+        fill_in('Email', with: 'email@example.com')
+        fill_in('Password', with: 'testtest')
+        fill_in('Password confirmation', with: 'testtest')
+        click_button('Sign up')
+      end
+      scenario 'prompts user to fill out a form, then displays the new restaurant' do
         visit '/restaurants'
         click_link 'Add a restaurant'
-        fill_in 'Name', with: 'kf'
+        fill_in 'Name', with: 'KFC'
+        fill_in 'Description', with: 'Deep fried goodness'
         click_button 'Create Restaurant'
-        expect(page).not_to have_content 'kf'
-        expect(page).to have_content 'error'
+        expect(page).to have_content 'KFC'
+        expect(current_path).to eq '/restaurants'
+      end
+      context 'an invalid restaurant' do
+        it 'does not let you submit a name that is too short' do
+          visit '/restaurants'
+          click_link 'Add a restaurant'
+          fill_in 'Name', with: 'kf'
+          click_button 'Create Restaurant'
+          expect(page).not_to have_content 'kf'
+          expect(page).to have_content 'error'
+        end
+      end
+    end
+    context 'as a non-signed in user' do
+      it 'does not let you create a restaurant' do
+        visit '/restaurants'
+        click_link 'Add a restaurant'
+        expect(page).not_to have_button 'Create Restaurant'
+        expect(current_path).to eq '/users/sign_in'
       end
     end
   end
 
   context "viewing restaurants" do
     let!(:kfc){ Restaurant.create(name:"KFC", description:"Deep fried goodness")}
-
     scenario "lets a user view a restaurant" do
       visit "/restaurants"
       click_link "KFC"
@@ -57,10 +72,16 @@ feature 'restaurants' do
   end
 
   context "editing restaurants" do
-    before { Restaurant.create name: "KFC" }
-
-    scenario "let a user edit a restaurant" do
-      visit "/restaurants"
+    before do 
+      Restaurant.create name: "KFC"
+      visit '/'
+      click_link('Sign up')
+      fill_in('Email', with: 'email@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+    end
+    scenario "let a signed in user edit a restaurant" do
       click_link "Edit KFC"
       fill_in "Name", with: "Kentucky Fried Chicken"
       fill_in "Description", with: "Deep fried goodness"
@@ -72,9 +93,16 @@ feature 'restaurants' do
   end
 
   context 'deleting restaurants' do
-    before { Restaurant.create name: 'KFC' }
+    before do 
+      Restaurant.create name: "KFC"
+      visit '/'
+      click_link('Sign up')
+      fill_in('Email', with: 'email@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+    end
     scenario 'removes a restaurant when a user clicks a delete link' do
-      visit '/restaurants'
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'
