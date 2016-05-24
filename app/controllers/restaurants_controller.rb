@@ -22,6 +22,7 @@ class RestaurantsController < ApplicationController
 
   def show
     @restaurant = Restaurant.find(params[:id])
+    puts "facebook: #{ENV['FACEBOOK_APP_ID']}"
   end
 
   def edit
