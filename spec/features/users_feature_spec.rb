@@ -34,5 +34,4 @@ feature 'User can sign in and out' do
 		end
 	end
 
-
 end
