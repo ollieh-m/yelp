@@ -11,3 +11,6 @@
 /log/*
 !/log/.keep
 /tmp
+
+#ignore .env (if dotenv is being used)
+.env
