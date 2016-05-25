@@ -45,4 +45,37 @@ feature 'reviewing' do
     expect(Review.all.count).to eq 1
   end
 
+  context 'deleting reviews' do
+    before do
+      visit '/restaurants'
+      click_link 'Review KFC'
+      fill_in "Thoughts", with: "Amazing!"
+      select '5', from: 'Rating'
+      click_button 'Leave Review'
+    end
+    scenario 'user can delete their own review' do
+      visit '/restaurants'
+      click_link 'KFC profile'
+      click_link 'Delete review'
+      expect(Review.all.count).to eq 0
+      user = User.find_by(email: 'test@example.com')
+      expect(user.reviews.count).to eq 0
+    end
+    scenario "user cannot delete someone else's review" do
+      click_link 'Sign out'
+      visit('/')
+      click_link('Sign up')
+      fill_in('Email', with: 'second@example.com')
+      fill_in('Password', with: 'testtest')
+      fill_in('Password confirmation', with: 'testtest')
+      click_button('Sign up')
+      visit '/restaurants'
+      click_link 'KFC profile'
+      click_link 'Delete review'
+      expect(Review.all.count).to eq 1
+      user = User.find_by(email: 'test@example.com')
+      expect(user.reviews.count).to eq 1
+    end
+  end
+
 end

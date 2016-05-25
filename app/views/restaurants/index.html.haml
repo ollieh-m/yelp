@@ -6,6 +6,7 @@
     - restaurant.reviews.each do |review|
       %h5= review.thoughts
 
+    = link_to "#{restaurant.name} profile", restaurant_path(restaurant)
     = link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant)
     = link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete
     = link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant)

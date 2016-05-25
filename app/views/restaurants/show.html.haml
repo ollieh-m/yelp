@@ -1,2 +1,8 @@
 %p= @restaurant.name
 %p= @restaurant.description
+
+- @restaurant.reviews.each do |review|
+    %p= review.thoughts
+    %p= review.rating
+    = link_to "Delete review", "/restaurants/#{@restaurant.id}/reviews/#{review.id}", method: :delete
+
