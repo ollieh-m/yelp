@@ -22,6 +22,9 @@ feature 'restaurants' do
   end
 
   context 'creating restaurants' do
+    before do
+      sign_up
+    end
     scenario 'prompts user to fill out a form, then displays the new restaurant' do
       visit '/restaurants'
       click_link 'Add a restaurant'
@@ -45,8 +48,10 @@ feature 'restaurants' do
 
   context 'editing restaurants' do
 
-    before { @kfc = Restaurant.create name: 'KFC' }
-
+    before do
+      @kfc = Restaurant.create name: 'KFC'
+      sign_up
+    end
     scenario 'let a user edit a restaurant' do
      visit '/restaurants'
      click_link 'Edit KFC'
@@ -72,13 +77,25 @@ feature 'restaurants' do
   end
 
   context 'deleting restaurants' do
-    before { Restaurant.create name: 'KFC' }
+    before do
+      Restaurant.create name: 'KFC'
+      sign_up
+    end
 
     scenario 'removes a restaurant when a user clicks a delete link' do
       visit '/restaurants'
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'
+    end
+  end
+
+  context 'User must log in' do
+    scenario 'can\'t create restaurant if not logged in' do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      expect(page).to have_content 'Log in'
+      expect(page).not_to have_content 'Name'
     end
   end
 

@@ -2,6 +2,9 @@ require 'rails_helper'
 
 feature 'reviewing' do
   let!(:kfc) { Restaurant.create(name:'KFC') }
+  before do
+    sign_up
+  end
 
   scenario 'allows users to leave a review using a form' do
      visit '/restaurants'
@@ -15,3 +18,12 @@ feature 'reviewing' do
   end
 
 end
+
+# feature 'reviewing no logged' do
+#   let!(:kfc) { Restaurant.create(name:'KFC') }
+#   scenario 'can\'t review if not logged in' do
+#     visit '/restaurants'
+#     click_link 'Review KFC'
+#     expect(current_path).to eq "/users/sign_in"
+#   end
+# end
