@@ -2,7 +2,7 @@
   <% @restaurants.each do |restaurant| %>
     <h2><%= link_to restaurant.name, restaurant_path(restaurant) %></h2>
     <p><%= restaurant.description%></p>
-    <%= restaurant.reviews.each do |review| %>
+    <% restaurant.reviews.each do |review| %>
     	<%= review.thoughts %>
     <% end %>
     <h2><%= link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant) %></h2>
