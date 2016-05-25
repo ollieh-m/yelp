@@ -10,7 +10,7 @@
   <script>
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : 'Rails.application.secrets.[facebook-app-id]',
+      appId      : <%= Rails.application.secrets.facebook_app_id %>,
       xfbml      : true,
       version    : 'v2.6'
     });
@@ -28,6 +28,7 @@
   <% if user_signed_in? %>
   <p> <%= link_to "Sign out", destroy_user_session_path, method: :delete %> </p>
   <% else %>
+  <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>
   <p> <%= link_to "Sign in", new_user_session_path %> </p>
   <p> <%= link_to "Sign up", new_user_registration_path %> </p>
   <% end %>
