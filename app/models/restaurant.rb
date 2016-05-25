@@ -7,11 +7,20 @@ class Restaurant < ActiveRecord::Base
       -> { extending WithUserAssociationExtension },
       dependent: :destroy
 
-  # has_many :reviews do
-  #   def build_with_user(attributes = {}, user)
-  #     attributes[:user] ||= user
-  #     build(attributes)
-  #   end
-  # end
+  def average_rating
+    return "N/A" if reviews.none?
+    sum = 0
+    i = 0
+    reviews.each do |review|
+      sum += review.rating
+      i+=1
+    end
+    p "sum: #{sum}"
+    p "i: #{i}"
+    p "count: #{reviews.count}"
+    p reviews
+    p "average: #{reviews.average(:rating)}"
+    return sum/i.to_f
+  end
 
 end
