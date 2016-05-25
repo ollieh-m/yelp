@@ -1,6 +1,21 @@
 require 'rails_helper'
 
 feature 'restaurants' do
+  # before(:each) do
+  #   @user = User.create(email: 'email@email.com', password: '123taco')
+  # end
+
+
+  before(:each) do
+    visit('/')
+    click_link('Sign up')
+    fill_in('Email', with: 'test@example.com')
+    fill_in('Password', with: 'testtest')
+    fill_in('Password confirmation', with: 'testtest')
+    click_button('Sign up')
+  end
+
+
   context 'no restaurants have been added' do
     scenario 'should display a prompt to add a restaurant' do
       visit '/restaurants'
@@ -28,6 +43,13 @@ feature 'restaurants' do
       fill_in 'Name', with: 'KFC'
       click_button 'Create Restaurant'
       expect(page).to have_content 'KFC'
+      expect(current_path).to eq '/restaurants'
+    end
+
+    scenario 'signed out user can not add restaurants' do
+      click_link 'Sign out'
+      visit '/restaurants'
+      expect(page).not_to have_content('Add a restaurant')
       expect(current_path).to eq '/restaurants'
     end
   end
