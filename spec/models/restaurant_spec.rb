@@ -15,4 +15,6 @@ describe Restaurant, type: :model do
 		expect(restaurant).not_to be_valid
 	end
 
+	it { should have_many(:reviews) }
+
 end
