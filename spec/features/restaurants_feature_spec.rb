@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 feature 'restaurants' do
-  # before(:each) do
-  #   @user = User.create(email: 'email@email.com', password: '123taco')
-  # end
-
 
   before(:each) do
     visit('/')
@@ -68,10 +64,14 @@ feature 'restaurants' do
 
   context 'editing restaurants' do
 
-    before { Restaurant.create name: 'KFC' }
+    before do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+    end
 
     scenario 'let a user edit a restaurant' do
-      visit '/restaurants'
       click_link 'Edit KFC'
       fill_in 'Name', with: 'Kentucky Fried Chicken'
       fill_in 'Description', with: 'Deep fried goodness'
@@ -80,10 +80,28 @@ feature 'restaurants' do
       expect(page).to have_content 'Deep fried goodness'
       expect(current_path).to eq '/restaurants'
     end
+
+    scenario 'another user than the user who created the restaurant can not edit' do
+      click_link 'Sign out'
+
+      click_link('Sign up')
+      fill_in('Email', with: 'another@user.com')
+      fill_in('Password', with: 'tacotaco')
+      fill_in('Password confirmation', with: 'tacotaco')
+      click_button('Sign up')
+      expect(page).not_to have_content 'Edit KFC'
+
+    end
   end
 
   context "deleting restaurants" do
-    before { Restaurant.create name: "KFC" }
+
+    before do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'KFC'
+      click_button 'Create Restaurant'
+    end
 
     scenario "let a user delete a Restaurant" do
       visit "/restaurants"
@@ -92,6 +110,20 @@ feature 'restaurants' do
       expect(page).to have_content "Restaurant deleted successfully"
       expect(current_path).to eq "/restaurants"
     end
+
+
+    scenario "does not let a user delete a Restaurant it did not create" do
+      click_link "Sign out"
+      expect(page).not_to have_content "Delete KFC"
+      click_link('Sign up')
+      fill_in('Email', with: 'another@user.com')
+      fill_in('Password', with: 'tacotaco')
+      fill_in('Password confirmation', with: 'tacotaco')
+      click_button('Sign up')
+      expect(page).not_to have_content "Delete KFC"
+    end
+
+
   end
 
   context "an invalid restaurant" do
