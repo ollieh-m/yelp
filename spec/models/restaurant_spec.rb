@@ -56,8 +56,32 @@ describe '#average_rating' do
     it 'returns the average' do
       restaurant = Restaurant.create(name: 'The Ivy')
       restaurant.reviews.create(rating: 1)
-      restaurant.reviews.create(thoughts: "bueno", rating: 5)
+      restaurant.reviews.create(rating: 5)
       expect(restaurant.average_rating).to eq 3
     end
-end
+  end
+
+  # context 'multiple reviews' do
+  #   let(:user) { User.create email: 'test@test.com' }
+  #   let(:user2){ User.create email: 'paco@mail.com' }
+  #   let(:review_params) { {rating: 1, thoughts: 'aghr'} }
+  #   let(:review_params2) { {rating: 5, thoughts: 'yum'} }
+
+
+  #   it 'returns the average' do
+
+  #     restaurant = Restaurant.create(name: 'The Ivy')
+  #     review = restaurant.reviews.create(review_params)
+  #     # review.save
+  #     #restaurant.reviews.create(rating: 1)
+
+  #     review2 = restaurant.reviews.create(review_params2, user2)
+  #     # p review2.save == true
+  #     # p "review:"; p review
+  #     # p "review2: #{review2}"; p review2
+  #     # restaurant.reviews.create(thoughts: "bueno", rating: 5)
+  #     # expect(review2.user).to eq user2
+  #     expect(restaurant.average_rating).to eq 3
+  #   end
+  # end
 end

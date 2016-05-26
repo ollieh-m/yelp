@@ -24,7 +24,7 @@ feature 'reviewing' do
     click_link 'Sign out'
     sign_up(email:"paco@gmail.com",password:"bugmaker", password_confirmation: "bugmaker")
     leave_review('Great', '5')
-    expect(page).to have_content('Average rating: 4')
+    expect(page).to have_content('Average Stars: ★★★★☆')
   end
 end
 

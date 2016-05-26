@@ -13,15 +13,15 @@ class Restaurant < ActiveRecord::Base
     i = 0
     reviews.each do |review|
       sum += review.rating
-      i+=1
+      i += 1
     end
-    # p "sum: #{sum}"
-    # p "i: #{i}"
-    # p "count: #{reviews.count}"
-    p reviews
-    # p "average: #{reviews.average(:rating)}"
-    # p "avg sum/i: #{sum/i.to_f}"
+    # p reviews
+    # reviews.average(:rating)
     return sum/i.to_f
+
+    # p "average: #{reviews.average(:rating)}"
+    # return sum/i.to_f
+    #
   end
 
 end
