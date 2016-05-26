@@ -11,6 +11,7 @@
 /log/*
 !/log/.keep
 /tmp
+/public/system/restaurants/images/*
 
 #ignore .env (if dotenv is being used)
 .env
