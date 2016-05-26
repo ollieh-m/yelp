@@ -1,2 +1,7 @@
 <p><%= @restaurant.name %></p>
 <p><%= @restaurant.description %></p>
+<% @restaurant.reviews.each do |review| %>
+	<%= review.thoughts %>
+	<%= review.rating %>
+	<%= link_to 'Delete Review', "/restaurants/#{@restaurant.id}/reviews/#{review.id}", method: :delete %>
+<% end %>
