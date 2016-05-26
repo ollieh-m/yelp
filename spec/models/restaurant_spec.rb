@@ -13,4 +13,8 @@ describe Restaurant, type: :model do
     expect(restaurant).to have(1).error_on(:name)
     expect(restaurant).not_to be_valid
   end
+
+  it { should belong_to :user }
+  it { should have_many :reviews}
+
 end
