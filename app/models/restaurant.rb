@@ -6,4 +6,16 @@ class Restaurant < ActiveRecord::Base
 
   validates :name, length: { minimum: 3 }, uniqueness: true
 
+  def destroy_if_created_by?(current_user) 
+  	if current_user.restaurants.include?(self)
+  		self.destroy
+  	else
+  		false
+  	end
+  end
+
+  def created_by?(current_user)
+  	current_user.restaurants.include?(self)
+  end
+
 end

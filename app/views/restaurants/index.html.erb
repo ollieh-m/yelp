@@ -13,11 +13,9 @@
 
 <% if user_signed_in? %>
 
-<% if current_user.restaurants.where(id: restaurant.id).exists? %>
+	<p> <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %> </p>
+	<p> <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %> </p>
 
-<p> <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %> </p>
-<p> <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %> </p>
-<% end %>
 <% end %>
 
 

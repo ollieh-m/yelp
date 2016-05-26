@@ -89,8 +89,10 @@ feature 'restaurants' do
       fill_in('Password', with: 'tacotaco')
       fill_in('Password confirmation', with: 'tacotaco')
       click_button('Sign up')
-      expect(page).not_to have_content 'Edit KFC'
-
+      # expect(page).not_to have_content 'Edit KFC'
+      click_link 'Edit KFC'
+      expect(page).to have_content 'You can only edit your own restaurants'
+      expect(current_path).to eq '/restaurants'
     end
   end
 
@@ -120,7 +122,11 @@ feature 'restaurants' do
       fill_in('Password', with: 'tacotaco')
       fill_in('Password confirmation', with: 'tacotaco')
       click_button('Sign up')
-      expect(page).not_to have_content "Delete KFC"
+      # expect(page).not_to have_content "Delete KFC"
+      click_link 'Delete KFC'
+      expect(page).to have_content 'You can only delete your own restaurants'
+      user = User.find_by(email: 'test@example.com')
+      expect(user.restaurants.count).to eq 1
     end
 
 
