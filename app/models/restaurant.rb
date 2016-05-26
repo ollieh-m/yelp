@@ -1,12 +1,9 @@
 class Restaurant < ActiveRecord::Base
-   has_many :reviews
-   belongs_to :user
+  belongs_to :user
+  has_many :reviews,
+      -> { extending WithUserAssociationExtension },
+      dependent: :destroy
 
-   validates :name, length: { minimum: 3 }, uniqueness: true
-
-   def build_review(review_params, current_user)
-     review_params[:user] = current_user
-     self.reviews.build(review_params)
-   end
+  validates :name, length: { minimum: 3 }, uniqueness: true
 
 end
