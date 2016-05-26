@@ -1,5 +1,7 @@
 <p><%= @restaurant.name %></p>
 <p><%= @restaurant.description %></p>
+<%= image_tag @restaurant.image.url(:medium) %>
+
 <% @restaurant.reviews.each do |review| %>
 	<%= review.thoughts %>
 	<%= review.rating %>
