@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
@@ -27,6 +27,7 @@ gem 'devise'
 gem 'omniauth-facebook'
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'paperclip'
+gem 'aws-sdk'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
