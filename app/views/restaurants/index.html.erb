@@ -4,7 +4,9 @@
     <h2> <%= link_to restaurant.name, restaurant_path(restaurant) %> </h2>
     <h3>Average rating: <%= restaurant.average_rating.to_i %></h3>
     <h3>Average Stars: <%= star_rating(restaurant.average_rating.to_i) %></h3>
-    <%= image_tag restaurant.image.url(:thumb) %>
+    <% unless restaurant.image.url(:thumb) == "/images/thumb/missing.png" %>
+      <%= image_tag restaurant.image.url(:thumb) %>
+    <% end %>
     <ul>
       <% restaurant.reviews.each do |review| %>
         <li>
