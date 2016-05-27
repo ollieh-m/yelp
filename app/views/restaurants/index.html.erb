@@ -5,15 +5,15 @@
     <h3>Average rating: <%= restaurant.average_rating.to_i %></h3>
     <h3>Average Stars: <%= star_rating(restaurant.average_rating.to_i) %></h3>
     <%= image_tag restaurant.image.url(:thumb) %>
-    <% restaurant.reviews.each do |review| %>
-     Rating: <%= review.rating %>
-     <br>
-     Thoughts: <%= review.thoughts %>
-     <br>
-      <p> <%= link_to "Endorse Review", "/reviews/#{review.id}/endorsements", method: :post %> </p>
-     <p><%= pluralize review.endorsements.count, 'endorsement' %></p>
-   <% end %>
-
+    <ul>
+      <% restaurant.reviews.each do |review| %>
+        <li>
+          <%= review.thoughts %> <%= review.rating %>
+          <%= link_to "Endorse Review", "/reviews/#{review.id}/endorsements", class: 'endorsements-link' %>
+          <span class="endorsements_count"> <%= review.endorsements.count %> </span> <%= 'endorsement'.pluralize(review.endorsements.count) %>
+        </li>
+      <% end %>
+    </ul>
     <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %>
     <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %>
     <%= link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant) %>
