@@ -1,32 +1,29 @@
 <% if @restaurants.any? %>
-<% @restaurants.each do |restaurant| %>
-<h2> <%= link_to restaurant.name, restaurant_path(restaurant) %> </h2>
-<p> <%= restaurant.description %> </p>
-<%= image_tag restaurant.image.url(:thumb) %>
+	<% @restaurants.each do |restaurant| %>
+		<h2> <%= link_to restaurant.name, restaurant_path(restaurant) %> </h2>
+		<p>Average rating: <%= star_rating(restaurant.average_rating) %></p>
+		<p> <%= restaurant.description %> </p>
+		<%= image_tag restaurant.image.url(:thumb) %>
 
-<h4> Reviews: </h4>
-<br>
-<% restaurant.reviews.each do |review| %>
-<p> <%= review.thoughts %> </p>
-<p> <%= review.rating %> </p>
+		<h4> Reviews: </h4>
+		<br>
+		<% restaurant.reviews.each do |review| %>
+			<p> <%= review.thoughts %> </p>
+			<p> <%= review.rating %> </p>
+		<% end %>
 
-<% end %>
+		<% if user_signed_in? %>
+			<p> <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %> </p>
+			<p> <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %> </p>
+		<% end %>
 
-<% if user_signed_in? %>
+		<p> <%= link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant) %> </p>
 
-	<p> <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %> </p>
-	<p> <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %> </p>
-
-<% end %>
-
-
-<p> <%= link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant) %> </p>
-
-<% end %>
+	<% end %>
 <% else %>
-No restaurants yet
+	No restaurants yet
 <% end %>
 
 <% if user_signed_in? %>
-<a href='restaurants/new'>Add a restaurant</a>
+	<a href='restaurants/new'>Add a restaurant</a>
 <% end %>

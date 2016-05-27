@@ -20,4 +20,9 @@ class Restaurant < ActiveRecord::Base
     current_user.restaurants.include?(self)
   end
 
+  def average_rating
+    return 'N/A' if reviews.count == 0
+    reviews.average(:rating).round
+  end
+
 end

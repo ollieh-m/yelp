@@ -35,4 +35,30 @@ describe Restaurant, type: :model do
       end
     end
   end
+
+  describe '#average_rating' do
+    context 'no reviews' do
+      it 'returns "N/A" when there are no reviews' do
+        restaurant = Restaurant.create(name: 'The Ivy')
+        expect(restaurant.average_rating).to eq 'N/A'
+      end
+    end
+    context 'one review' do
+      it 'returns the rating from the review' do
+        restaurant = Restaurant.create(name: 'The Ivy')
+        restaurant.reviews.create(rating: 4)
+        expect(restaurant.average_rating).to eq 4
+      end
+    end
+    context 'two reviews' do
+      it 'returns the average of the two ratings' do
+        restaurant = Restaurant.create(name: 'The Ivy')
+        restaurant.reviews.create(rating: 1)
+        user = User.create(email: 'test2@test.com', password: '123456')
+        restaurant.reviews.create(rating: 3, user: user)
+        expect(restaurant.average_rating).to eq 2
+      end
+    end
+  end
+
 end
