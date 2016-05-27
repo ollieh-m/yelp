@@ -10,6 +10,8 @@
      <br>
      Thoughts: <%= review.thoughts %>
      <br>
+      <p> <%= link_to "Endorse Review", "/reviews/#{review.id}/endorsements", method: :post %> </p>
+     <p><%= pluralize review.endorsements.count, 'endorsement' %></p>
    <% end %>
 
     <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %>
